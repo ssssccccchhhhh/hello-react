@@ -3,23 +3,25 @@ import { Component } from "react";
 class EventPractice extends Component {
   state = {
     message: "",
+    username: "",
   };
 
   handleChange = (e) => {
     this.setState(
       {
-        message: e.target.value,
+        [e.target.name]: e.target.value,
       },
       () => {
-        console.log(this.state.message);
+        console.log(e.target.name, ":", this.state[[e.target.name]]);
       }
     );
   };
 
   handleClick = () => {
-    alert(this.state.message);
+    alert(this.state.username + ": " + this.state.message);
     this.setState(
       {
+        username: "",
         message: "",
       },
       () => {
@@ -28,18 +30,34 @@ class EventPractice extends Component {
     );
   };
 
+  handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      this.handleClick();
+    }
+  };
+
   render() {
     return (
       <div>
         <h1>이벤트 연습</h1>
         <input
           type="text"
+          name="username"
+          placeholder="사용자명"
+          value={this.state.username}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
+        />
+        <input
+          type="text"
           name="message"
           placeholder="아무거나 입력해 보세요"
           value={this.state.message}
           onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
         />
         <button onClick={this.handleClick}>초기화</button>
+        <br></br>
       </div>
     );
   }
